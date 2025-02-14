@@ -1,0 +1,165 @@
+                                  Relation 
+      _______________________________________________________________
+
+1.supplier can provide multiple products, but each product is supplied by only one supplier.
+
+2.Each customer can place multiple orders, but each order is associated with only one customer.
+
+3.Each product belongs to only one category ,but one category can have multiple products.
+
+4. Order can contain many products (Products), Product can be part of multiple orders (Orders).
+   
+     _______________________________________________________________
+
+                               Create Table
+     _______________________________________________________________
+
+
+CREATE TABLE Products (
+Product_ID INT PRIMARY KEY AUTO_INCREMENT,
+ name VARCHAR (50), 
+ price INT,
+ stock_quantity INT,
+ Supplier_ID INT ,
+ category_ID INT 
+);
+
+
+
+CREATE TABLE Suppliers (
+Supplier_ID INT PRIMARY KEY AUTO_INCREMENT,
+ name VARCHAR (50), 
+ contact_name VARCHAR (50),
+ phone INT,
+ email VARCHAR (50),
+ adress VARCHAR (50)
+);
+
+
+
+CREATE TABLE Customers (
+Customer_ID INT PRIMARY KEY AUTO_INCREMENT,
+ full_name VARCHAR (100), 
+ phone INT,
+ email VARCHAR (50),
+ adress VARCHAR (50)
+);
+
+
+CREATE TABLE Orders (
+order_ID INT PRIMARY KEY AUTO_INCREMENT,
+order_date DATE ,
+ total_amount INT,
+ order_status  VARCHAR (50),
+Customer_ID INT
+);
+
+
+CREATE TABLE Categories (
+ category_ID INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50)
+);
+
+
+CREATE TABLE Orders_Products (
+ID INT PRIMARY KEY AUTO_INCREMENT,
+quantity INT,
+price INT,
+Product_ID INT ,
+order_ID INT 
+);
+
+
+    _______________________________________________________________
+
+                            add foreign key
+     _____________________________________________________________
+
+ALTER TABLE Products 
+ADD CONSTRAINT Supplier_ID 
+FOREIGN KEY (Supplier_ID)REFERENCES Suppliers(Supplier_ID)
+
+
+ALTER TABLE Products 
+ADD CONSTRAINT category_ID 
+FOREIGN KEY (category_ID)REFERENCES Categories(category_ID)
+
+
+ALTER TABLE orders 
+ADD CONSTRAINT customer_ID 
+FOREIGN KEY (customer_ID)REFERENCES customers(customer_ID)
+
+
+ALTER TABLE orders_products 
+ADD CONSTRAINT Product_ID
+FOREIGN KEY (Product_ID)REFERENCES products(Product_ID)
+
+
+ALTER TABLE orders_products 
+ADD CONSTRAINT order_ID
+FOREIGN KEY (order_ID)REFERENCES orders(order_ID)
+
+
+
+      ______________________________________________________________
+
+                            insert data
+      _____________________________________________________________
+
+
+
+INSERT INTO Categories (name) VALUES 
+('Living Room'),
+('Bedroom'),
+('Dining Room'),
+('Office Furniture'),
+('Outdoor');
+
+
+
+INSERT INTO Suppliers (name, contact_name, phone, email, adress) VALUES 
+('furnitureA ', 'aya', 1234567890, 'furnitureA@gmail.com', 'jordan, Amman'),
+('furnitureB', 'mohammad', 2345678901, 'furnitureB@gmail.com', 'Turkey, Istanbol'),
+('furnitureC', 'ahmad', 3456789012, 'furnitureC@gmail.com', 'KSA, Jeddah'),
+('furnitureD', 'sara', 4567890123, 'furnitureD@gmail.com', 'syria, Damascus'),
+('furnitureE', 'yara', 5678901234, 'furnitureE@gmail.com', 'KSA, Riyad');
+
+
+INSERT INTO Products (name, price, stock_quantity, Supplier_ID, category_ID) VALUES 
+('Sofa', 500, 20, 1, 1),
+('Outdoor Chair', 80, 40, 1, 5),
+('Coffee Table', 150, 35, 4, 1),
+('Dining Table', 300, 15, 2, 3),
+('Dining Chair', 100, 30, 2, 3),
+('Office Chair', 120, 50, 3, 4),
+('Bookshelf', 200, 15, 3, 4),
+('Desk Lamp', 40, 60, 3, 4),
+('Wardrobe', 600, 10, 5, 2);
+
+
+INSERT INTO Customers (full_name, phone, email, adress) VALUES 
+('Ahmed Ali', 5678901234, 'ahmed.ali@email.com', 'Jordan, Amman'),
+('Layla Mohammad', 6789012345, 'layla.mohammad@email.com', 'Jordan, Irbed'),
+('Omar Khaled', 7890123456, 'omar.khaled@email.com', 'jordan, Aqaba'),
+('maryam Ahmad', 7890123456, 'maryam.Ahmad@email.com', 'jordan,Zarqa'),
+('Reem Nasser', 7890123456, 'Reem.Nasser@email.com', 'jordan, Mafraq');
+
+
+INSERT INTO Orders (order_date, total_amount, order_status, Customer_ID) VALUES 
+('2025-02-01', 650, 'Shipped', 3),
+('2025-02-05', 700, 'Pending', 1),
+('2025-02-10', 500, 'Returned', 4),
+('2025-02-12', 1200, 'Delivered', 2),
+('2025-02-15', 350, 'Cancelled', 5);
+
+
+INSERT INTO Orders_Products (quantity, price, Product_ID, order_ID) VALUES 
+(1, 500, 1, 1),  
+(2, 150, 2, 1),  
+(1, 300, 3, 2),  
+(2, 120, 4, 3), 
+(3, 200, 5, 4),  
+(1, 120, 6, 5);
+
+
+
